@@ -499,7 +499,7 @@ Zawartość wydania:
 
 </p>
 
-<form action="https://formsubmit.co/kr3tzkontakt@gmail.com" method="POST">
+<form id="preorderForm" action="https://formsubmit.co/kr3tzkontakt@gmail.com" method="POST">
 
 <input class="form-field" type="text" name="name" placeholder="Imię i nazwisko" required>
 
@@ -514,8 +514,10 @@ Zawartość wydania:
 
 <input type="hidden" name="_next" value="thankyou.html">
 
+
 <button class="buy-button" type="submit">Kup Pre-Order</button>
 
+<p class="note">Podaj prawdziwe dane abyśmy mogli kontaktować się z tobą w sprawie płatności!!! Podanie fałszywych danych może skutkować nie otrzymaniem Wersji Fizycznej!</p>
 </form>
 
 </div>
@@ -526,6 +528,8 @@ Zawartość wydania:
 </footer>
 
 <script>
+
+
 const glow=document.getElementById('cursorGlow');
 document.addEventListener('mousemove',(e)=>{
 glow.style.left=e.clientX+'px';
@@ -566,5 +570,12 @@ entry.target.classList.add('visible');
 faders.forEach(el=>observer.observe(el));
 </script>
 
+<script>
+document.getElementById("preorderForm").addEventListener("submit", function () {
+  setTimeout(() => {
+    window.location.href = "thankyou.html";
+  }, 1200);
+});
+</script>
 </body>
 </html>
