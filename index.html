@@ -508,7 +508,7 @@ Zawartość wydania:
 
 </p>
 
-<form id="preorderForm" action="https://formsubmit.co/kr3tzkontakt@gmail.com" method="POST">
+<form id="preorderForm">
 
 <input class="form-field" type="text" name="name" placeholder="Imię i nazwisko" required>
 
@@ -521,7 +521,6 @@ Zawartość wydania:
 
 <input type="hidden" name="_autoresponse" value="Dzięki za preorder Z4NIM Z4SNĘ. Twoje zamówienie zostało przyjęte.">
 
-<input type="hidden" name="_next" value="thankyou.html">
 
 
 <button class="buy-button" type="submit">Kup Pre-Order</button>
@@ -536,6 +535,45 @@ Zawartość wydania:
 © 2026 SBB — Z4NIM Z4SNĘ
 </footer>
 
+
+
+
+<script>
+document.getElementById("preorderForm").addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  const form = e.target;
+  const data = new FormData(form);
+
+  await fetch("https://formsubmit.co/ajax/kr3tzkontakt@gmail.com", {
+    method: "POST",
+    headers: {
+      "Accept": "application/json"
+    },
+    body: data
+  });
+
+  // 👇 TU ROBISZ SWÓJ THANK YOU SCREEN (ZERO REDIRECTA)
+  document.body.innerHTML = `
+    <div style="
+      position:fixed;
+      inset:0;
+      background:#0b0b0b;
+      color:#fff;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      align-items:center;
+      text-align:center;
+      font-family:Arial;
+    ">
+      <h1>DZIĘKI ZA PREORDER</h1>
+      <p>Twoje zamówienie zostało zapisane.</p>
+      <small>Sprawdź maila — dostaniesz potwierdzenie.</small>
+    </div>
+  `;
+});
+</script>
 <script>
 
 
