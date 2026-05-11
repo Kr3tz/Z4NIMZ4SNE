@@ -8,6 +8,8 @@
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
 
+html{scroll-behavior:smooth;}
+
 body{
 background:#0b0b0b;
 color:#f5f5f5;
@@ -17,39 +19,16 @@ letter-spacing:.5px;
 overflow-x:hidden;
 }
 
-/* ===== INTRO ===== */
-#intro{
-position:fixed;
-top:0;left:0;
-width:100%;height:100%;
-background:#000;
-display:flex;
-flex-direction:column;
-align-items:center;
-justify-content:center;
-z-index:10000;
-cursor:pointer;
-transition:opacity 1s ease;
-}
-#intro h1{
-font-size:42px;
-letter-spacing:6px;
-margin-bottom:20px;
-}
-#intro p{
-color:#777;
-}
-
-/* ===== GRAIN / STARS ===== */
+/* subtle grain */
 body::after{
 content:"";
 position:fixed;
 top:0;left:0;
 width:100%;height:100%;
+background:url('https://grainy-gradients.vercel.app/noise.svg');
+opacity:.05;
 pointer-events:none;
-background-image:url('https://grainy-gradients.vercel.app/noise.svg');
-opacity:0.05;
-z-index:9998;
+z-index:1;
 }
 
 /* Cursor glow */
@@ -64,98 +43,94 @@ transform:translate(-50%,-50%);
 z-index:9999;
 }
 
-/* NAV */
+/* nav */
 nav{
 position:fixed;
 top:30px;
 right:10%;
 font-size:13px;
+letter-spacing:1px;
+z-index:10;
 }
 nav a{
 color:#777;
 text-decoration:none;
 margin-left:25px;
 transition:.3s;
-}
-nav a.active,
-nav a:hover{color:#fff}
-
-/* HEADER */
-header{
-padding:120px 10% 80px;
-border-bottom:1px solid #1a1a1a;
-}
-
-h1{
-font-size:72px;
-margin-bottom:20px;
 position:relative;
 }
-
-/* GLITCH */
-h1::before,
-h1::after{
-content:attr(data-text);
+nav a:hover,
+nav a.active{color:#fff}
+nav a::after{
+content:"";
 position:absolute;
+bottom:-4px;
 left:0;
-width:100%;
-opacity:0.3;
+width:0%;
+height:1px;
+background:#fff;
+transition:.3s;
 }
+nav a:hover::after,
+nav a.active::after{width:100%}
 
-h1::before{
-animation:glitch 2s infinite;
-color:#f0f;
-}
-h1::after{
-animation:glitch 2s infinite reverse;
-color:#0ff;
-}
+/* layout */
+header{padding:120px 10% 80px;border-bottom:1px solid #1a1a1a}
+h1{font-size:72px;margin-bottom:20px}
+h2{font-size:22px;margin-bottom:40px;color:#ccc}
+section{padding:120px 10%;border-bottom:1px solid #141414}
 
-@keyframes glitch{
-0%{transform:translate(0)}
-20%{transform:translate(-2px,2px)}
-40%{transform:translate(-2px,-2px)}
-60%{transform:translate(2px,2px)}
-80%{transform:translate(2px,-2px)}
-100%{transform:translate(0)}
-}
-
-section{
-padding:120px 10%;
-border-bottom:1px solid #141414;
-}
-
-/* BOOK */
+/* booklet */
 .book{
 max-width:700px;
-min-height:260px;
-overflow:hidden;
 position:relative;
+height:420px;
+overflow:hidden;
 }
 
 .page{
 position:absolute;
 width:100%;
+height:100%;
+top:0;
+left:0;
 opacity:0;
 transform:translateX(40px);
-transition:.5s;
+transition:all .4s ease;
+pointer-events:none;
 }
+
 .page.active{
 opacity:1;
 transform:translateX(0);
+pointer-events:auto;
+}
+
+/* shadow kartki */
+.page::after{
+content:"";
+position:absolute;
+right:0;
+top:0;
+width:40px;
+height:100%;
+background:linear-gradient(to left, rgba(0,0,0,0.3), transparent);
+pointer-events:none;
 }
 
 .page-content{
 color:#aaa;
 white-space:pre-line;
+height:100%;
+overflow-y:auto;
+padding-right:10px;
 }
 
-/* BUTTONS */
-.controls{
-margin-top:40px;
-display:flex;
-gap:20px;
-}
+/* scrollbar */
+.page-content::-webkit-scrollbar{width:4px}
+.page-content::-webkit-scrollbar-thumb{background:#333}
+
+.controls{margin-top:40px;display:flex;gap:20px}
 
 .control-btn{
 padding:8px 20px;
@@ -166,11 +141,11 @@ cursor:pointer;
 transition:.3s;
 }
 .control-btn:hover{
-background:#fff;
-color:#000;
+background:#f5f5f5;
+color:#0b0b0b;
 }
 
-/* PREORDER */
+/* preorder */
 .preorder-box{
 max-width:520px;
 margin:auto;
@@ -178,11 +153,6 @@ padding:40px;
 border:1px solid #1c1c1c;
 background:linear-gradient(145deg,#0e0e0e,#090909);
 box-shadow:0 0 40px rgba(0,0,0,.6);
-transition:.4s;
-}
-.preorder-box:hover{
-transform:translateY(-5px);
-box-shadow:0 10px 60px rgba(0,0,0,.9);
 }
 
 .price{
@@ -204,15 +174,28 @@ color:#eee;
 .buy-button{
 width:100%;
 padding:14px;
-border:1px solid #fff;
-background:#fff;
-color:#000;
+border:1px solid #f5f5f5;
+background:#f5f5f5;
+color:#0b0b0b;
 cursor:pointer;
+font-weight:bold;
 letter-spacing:2px;
 transition:.3s;
 }
 .buy-button:hover{
-background:#ddd;
+background:#fff;
+transform:translateY(-2px);
+}
+
+/* fade */
+.fade-in{
+opacity:0;
+transform:translateY(30px);
+transition:all .8s ease;
+}
+.fade-in.visible{
+opacity:1;
+transform:none;
 }
 
 footer{
@@ -221,14 +204,16 @@ font-size:11px;
 color:#555;
 text-align:center;
 }
+
+@media(max-width:768px){
+h1{font-size:42px}
+nav{position:static;margin-bottom:40px}
+.cursor-glow{display:none}
+}
 </style>
 </head>
-<body>
 
-<div id="intro">
-<h1>Z4NIM Z4SNĘ</h1>
-<p>kliknij aby wejść</p>
-</div>
+<body>
 
 <div class="cursor-glow" id="cursorGlow"></div>
 
@@ -238,37 +223,67 @@ text-align:center;
 <a href="#kup">Pre-Order</a>
 </nav>
 
-<header>
-<h1 data-text="Z4NIM Z4SNĘ">Z4NIM Z4SNĘ</h1>
-<p>Nowy początek. Nowi ludzie. Te same problemy.</p>
+<header class="fade-in">
+<h1>Z4NIM Z4SNĘ</h1>
+<p>Nowy początek. Nowy album. Nowi ludzie. Nowe problemy.</p>
 </header>
 
-<section id="manifest">
+<section id="manifest" class="fade-in">
 <h2>Info</h2>
-<p>Wejdź w głąb i sprawdź co siedzi mi w głowie.</p>
+<p>
+Pierwszy album, z którego nieironicznie jestem dumny.  
+13 utworów — jedna historia.
+</p>
 </section>
 
-<section id="booklet">
+<section id="booklet" class="fade-in">
 <h2>Booklet</h2>
 
-<div class="book">
-<div class="page active"><div class="page-content">01 - W5TYD!</div></div>
-<div class="page"><div class="page-content">02 - SI3DEM - JED3N</div></div>
-<div class="page"><div class="page-content">03 - CZ4A BY ZASZŁ0 SŁ0ŃC3</div></div>
+<div class="book" id="book">
+
+<div class="page active"><div class="page-content">
+01 - W5TYD!
+
+[BARDZO DOBRE INTRO — POZNASZ W DNIU PREMIERY]
+</div></div>
+
+<div class="page"><div class="page-content">
+02 - SI3DEM - JED3N
+
+wszędzie widzę te siódemki...
+</div></div>
+
+<div class="page"><div class="page-content">
+03 - CZ4A BY ZASZŁ0 SŁ0ŃC3
+
+[CIEKAWE KIEDY ZAJDZIE]
+</div></div>
+
 </div>
 
 <div class="controls">
-<button onclick="prevPage()" class="control-btn">Poprzednia</button>
-<button onclick="nextPage()" class="control-btn">Następna</button>
+<button class="control-btn" onclick="prevPage()">Poprzednia</button>
+<button class="control-btn" onclick="nextPage()">Następna</button>
 </div>
+
 </section>
 
-<section id="kup">
+<section id="kup" class="fade-in">
 <h2>Pre-Order</h2>
 
 <div class="preorder-box">
 <div class="price">6,66 PLN</div>
-<button class="buy-button">ZAMAWIAM</button>
+
+<img src="płyta.png" style="width:100%;margin-bottom:20px">
+
+<form action="https://formsubmit.co/kr3tzkontakt@gmail.com" method="POST">
+<input class="form-field" type="text" placeholder="Imię i nazwisko" required>
+<input class="form-field" type="email" placeholder="Email" required>
+<input class="form-field" type="text" placeholder="Adres" required>
+
+<button class="buy-button">Kup Pre-Order</button>
+</form>
+
 </div>
 </section>
 
@@ -277,55 +292,44 @@ text-align:center;
 </footer>
 
 <script>
-// INTRO
-document.getElementById('intro').onclick=()=>{
-document.getElementById('intro').style.opacity=0;
-setTimeout(()=>document.getElementById('intro').style.display='none',1000);
-};
-
-// CURSOR
 const glow=document.getElementById('cursorGlow');
 document.addEventListener('mousemove',(e)=>{
 glow.style.left=e.clientX+'px';
 glow.style.top=e.clientY+'px';
 });
 
-// BOOK
 let currentPage=0;
 const pages=document.querySelectorAll('.page');
 
-function showPage(i){
+function showPage(index){
 pages.forEach(p=>p.classList.remove('active'));
-pages[i].classList.add('active');
+setTimeout(()=>pages[index].classList.add('active'),10);
 }
+
 function nextPage(){
 if(currentPage<pages.length-1){
 currentPage++;
 showPage(currentPage);
-}}
+}
+}
+
 function prevPage(){
 if(currentPage>0){
 currentPage--;
 showPage(currentPage);
-}}
+}
+}
 
-// NAV ACTIVE
-const sections=document.querySelectorAll("section");
-const navLinks=document.querySelectorAll("nav a");
-
-window.addEventListener("scroll",()=>{
-let current="";
-sections.forEach(section=>{
-const top=section.offsetTop;
-if(scrollY>=top-200) current=section.getAttribute("id");
-});
-navLinks.forEach(a=>{
-a.classList.remove("active");
-if(a.getAttribute("href")==="#"+current){
-a.classList.add("active");
+/* fade */
+const faders=document.querySelectorAll('.fade-in');
+const observer=new IntersectionObserver(entries=>{
+entries.forEach(entry=>{
+if(entry.isIntersecting){
+entry.target.classList.add('visible');
 }
 });
 });
+faders.forEach(el=>observer.observe(el));
 </script>
 
 </body>
