@@ -539,21 +539,23 @@ Zawartość wydania:
 
 
 <script>
-document.getElementById("preorderForm").addEventListener("submit", async (e) => {
+document.addEventListener("DOMContentLoaded", () => {
+
+/* preorder form */
+const form = document.getElementById("preorderForm");
+
+if (form) {
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  const form = e.target;
   const data = new FormData(form);
 
   await fetch("https://formsubmit.co/ajax/kr3tzkontakt@gmail.com", {
     method: "POST",
-    headers: {
-      "Accept": "application/json"
-    },
+    headers: { "Accept": "application/json" },
     body: data
   });
 
-  // 👇 TU ROBISZ SWÓJ THANK YOU SCREEN (ZERO REDIRECTA)
   document.body.innerHTML = `
     <div style="
       position:fixed;
@@ -569,10 +571,57 @@ document.getElementById("preorderForm").addEventListener("submit", async (e) => 
     ">
       <h1>DZIĘKI ZA PREORDER</h1>
       <p>Twoje zamówienie zostało zapisane.</p>
-      <small>Sprawdź maila ponieważ dostaniesz potwierdzenie.</small>
+      <small>Sprawdź maila.</small>
     </div>
   `;
 });
+}
+
+/* cursor glow */
+const glow=document.getElementById('cursorGlow');
+document.addEventListener('mousemove',(e)=>{
+  if(glow){
+    glow.style.left=e.clientX+'px';
+    glow.style.top=e.clientY+'px';
+  }
+});
+
+/* booklet */
+let currentPage=0;
+const pages=document.querySelectorAll('.page');
+
+function showPage(index){
+  pages.forEach(p=>p.classList.remove('active'));
+  if(pages[index]) pages[index].classList.add('active');
+}
+
+window.nextPage=function(){
+  if(currentPage<pages.length-1){
+    currentPage++;
+    showPage(currentPage);
+  }
+}
+
+window.prevPage=function(){
+  if(currentPage>0){
+    currentPage--;
+    showPage(currentPage);
+  }
+}
+
+/* fade */
+const faders=document.querySelectorAll('.fade-in');
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add('visible');
+    }
+  });
+});
+
+faders.forEach(el=>observer.observe(el));
+
+}); // ✅ DOMContentLoaded END
 </script>
 <script>
 
