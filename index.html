@@ -600,28 +600,44 @@ document.addEventListener("DOMContentLoaded", () => {
 /* preorder form */
 const form = document.getElementById("preorderForm");
 
-if (!res.ok) {
-  throw new Error("Błąd wysyłki formularza");
-}
-  document.body.innerHTML = `
-    <div style="
-      position:fixed;
-      inset:0;
-      background:#0b0b0b;
-      color:#fff;
-      display:flex;
-      flex-direction:column;
-      justify-content:center;
-      align-items:center;
-      text-align:center;
-      font-family:Arial;
-    ">
-      <h1>DZIĘKI ZA PREORDER</h1>
-      <p>Twoje zamówienie zostało zapisane.</p>
-      <small>Sprawdź maila.</small>
-    </div>
-  `;
-});
+if (form) {
+  form.addEventListener("submit", async (e) => {
+    e.preventDefault();
+
+    const data = new FormData(form);
+
+    try {
+      const res = await fetch("https://formsubmit.co/ajax/kr3tzkontakt@gmail.com", {
+        method: "POST",
+        headers: { "Accept": "application/json" },
+        body: data
+      });
+
+      if (!res.ok) throw new Error();
+
+      document.body.innerHTML = `
+        <div style="
+          position:fixed;
+          inset:0;
+          background:#0b0b0b;
+          color:#fff;
+          display:flex;
+          flex-direction:column;
+          justify-content:center;
+          align-items:center;
+          text-align:center;
+          font-family:Arial;
+        ">
+          <h1>DZIĘKI ZA PREORDER</h1>
+          <p>Twoje zamówienie zostało zapisane.</p>
+          <small>Sprawdź maila.</small>
+        </div>
+      `;
+
+    } catch (err) {
+      alert("Błąd wysyłki formularza ❌");
+    }
+  });
 }
 
 /* cursor glow */
