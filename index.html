@@ -600,18 +600,6 @@ document.addEventListener("DOMContentLoaded", () => {
 /* preorder form */
 const form = document.getElementById("preorderForm");
 
-if (form) {
-form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-
-  const data = new FormData(form);
-
-const res = await fetch("https://formsubmit.co/ajax/kr3tzkontakt@gmail.com", {
-  method: "POST",
-  headers: { "Accept": "application/json" },
-  body: data
-});
-
 if (!res.ok) {
   throw new Error("Błąd wysyłki formularza");
 }
