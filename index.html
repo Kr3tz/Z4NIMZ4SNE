@@ -595,6 +595,44 @@ Zawartość wydania:
 
 
 <script>
+	form.addEventListener("submit", async (e) => {
+  e.preventDefault();
+  console.log("klik działa"); // 👈 sprawdź czy się odpala
+
+  const data = new FormData(form);
+
+  try {
+    const res = await fetch("https://formsubmit.co/ajax/kr3tzkontakt@gmail.com", {
+      method: "POST",
+      headers: { "Accept": "application/json" },
+      body: data
+    });
+
+    console.log("wysłano", res);
+
+    document.body.innerHTML = `
+      <div style="
+        position:fixed;
+        inset:0;
+        background:#0b0b0b;
+        color:#fff;
+        display:flex;
+        flex-direction:column;
+        justify-content:center;
+        align-items:center;
+        text-align:center;
+        font-family:Arial;
+      ">
+        <h1>DZIĘKI ZA PREORDER</h1>
+        <p>Twoje zamówienie zostało zapisane.</p>
+        <small>Sprawdź maila.</small>
+      </div>
+    `;
+  } catch (err) {
+    console.error("błąd:", err);
+    alert("Nie udało się wysłać formularza");
+  }
+});
 document.addEventListener("DOMContentLoaded", () => {
 
 /* preorder form */
