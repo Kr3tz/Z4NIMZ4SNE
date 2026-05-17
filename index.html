@@ -1,25 +1,145 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Z4NIM Z4SNE</title>
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth;}
+.story{color:#999;max-width:700px;line-height:1.8;font-size:14px;}
+.dedication{margin-top:20px;color:#bbb;font-style:italic;letter-spacing:1px;}
+body{
+background:#0b0b0b;color:#f5f5f5;
+font-family:"Helvetica Neue",Arial,sans-serif;
+line-height:1.6;letter-spacing:.5px;overflow-x:hidden;
+}
+body::after{
+content:"";position:fixed;top:0;left:0;width:100%;height:100%;
+background:url('https://grainy-gradients.vercel.app/noise.svg');
+opacity:.05;pointer-events:none;z-index:1;
+}
+.cursor-glow{
+position:fixed;width:250px;height:250px;
+background:radial-gradient(circle,rgba(255,255,255,0.06)0%,transparent 70%);
+border-radius:50%;pointer-events:none;
+transform:translate(-50%,-50%);z-index:9999;
+}
+.note{font-size:10px;color:#555;opacity:.6;letter-spacing:.5px;line-height:1.5;margin-top:12px;font-style:italic;}
+
+nav{position:fixed;top:30px;right:10%;font-size:13px;letter-spacing:1px;z-index:10;}
+nav a{color:#777;text-decoration:none;margin-left:25px;transition:.3s;position:relative;}
+nav a:hover,nav a.active{color:#fff}
+nav a::after{
+content:"";position:absolute;bottom:-4px;left:0;width:0%;height:1px;background:#fff;transition:.3s;
+}
+nav a:hover::after,nav a.active::after{width:100%}
+
+header{padding:120px 10% 80px;border-bottom:1px solid #1a1a1a}
+h1{font-size:72px;margin-bottom:20px}
+h2{font-size:22px;margin-bottom:40px;color:#ccc}
+section{padding:120px 10%;border-bottom:1px solid #141414}
+
+.book{max-width:700px;position:relative;height:420px;overflow:hidden;}
+.page{position:absolute;width:100%;height:100%;top:0;left:0;opacity:0;transform:translateX(40px);transition:.4s;pointer-events:none;}
+.page.active{opacity:1;transform:translateX(0);pointer-events:auto;}
+.page::after{
+content:"";position:absolute;right:0;top:0;width:40px;height:100%;
+background:linear-gradient(to left, rgba(0,0,0,0.3), transparent);
+}
+.page-content{color:#aaa;white-space:pre-line;height:100%;overflow-y:auto;padding-right:10px;}
+
+.controls{margin-top:40px;display:flex;gap:20px}
+.control-btn{
+padding:8px 20px;border:1px solid #f5f5f5;background:none;color:#f5f5f5;cursor:pointer;transition:.3s;
+}
+.control-btn:hover{background:#f5f5f5;color:#0b0b0b;}
+
+.preorder-box{
+max-width:520px;margin:auto;padding:40px;
+border:1px solid #1c1c1c;background:linear-gradient(145deg,#0e0e0e,#090909);
+box-shadow:0 0 40px rgba(0,0,0,.6);
+}
+.price{text-align:center;font-size:36px;letter-spacing:4px;margin-bottom:25px;}
+
+.form-field{
+width:100%;padding:14px;margin-bottom:15px;background:#0b0b0b;
+border:1px solid #222;color:#eee;
+}
+
+.buy-button{
+width:100%;padding:14px;border:1px solid #f5f5f5;
+background:#f5f5f5;color:#0b0b0b;cursor:pointer;font-weight:bold;letter-spacing:2px;transition:.3s;
+}
+.buy-button:hover{background:#fff;transform:translateY(-2px);}
+
+.fade-in{opacity:0;transform:translateY(30px);transition:.8s;}
+.fade-in.visible{opacity:1;transform:none;}
+
+footer{padding:60px 10%;font-size:11px;color:#555;text-align:center;}
+
+@media(max-width:768px){
+h1{font-size:42px}
+nav{position:static;margin-bottom:40px}
+.cursor-glow{display:none}
+}
+</style>
+</head>
+
+<body>
+
+<div class="cursor-glow" id="cursorGlow"></div>
+
+<nav>
+<a href="#manifest">Info</a>
+<a href="#booklet">Booklet</a>
+<a href="#kup">Pre-Order</a>
+</nav>
+
+<header class="fade-in">
+<h1>Z4NIM Z4SNĘ</h1>
+<p>Nowy początek. Nowy album. Nowi ludzie. Nowe problemy.</p>
+</header>
+
+<section id="kup" class="fade-in">
+<h2>Pre-Order</h2>
+
+<div class="preorder-box">
+<div class="price">6,66 PLN</div>
+
+<form id="preorderForm">
+<input class="form-field" type="text" name="name" placeholder="Imię i nazwisko" required>
+<input class="form-field" type="email" name="email" placeholder="Email" required>
+<input class="form-field" type="text" name="address" placeholder="Adres" required>
+
+<button class="buy-button" type="submit">Kup Pre-Order</button>
+
+<p class="note">Podaj prawdziwe dane...</p>
+</form>
+
+</div>
+</section>
+
+<footer>© 2026 SBB — Z4NIM Z4SNĘ</footer>
+
 <script>
 document.addEventListener("DOMContentLoaded", () => {
 
-/* preorder form */
 const form = document.getElementById("preorderForm");
 
 if (form) {
 form.addEventListener("submit", async (e) => {
   e.preventDefault();
 
-  console.log("klik działa"); // debug
-
   const data = new FormData(form);
 
   try {
-    const res = await fetch("https://formsubmit.co/ajax/kr3tzkontakt@gmail.com", {
+    await fetch("https://formsubmit.co/ajax/kr3tzkontakt@gmail.com", {
       method: "POST",
       headers: { "Accept": "application/json" },
       body: data
     });
-
-    console.log("wysłano", res);
 
     document.body.innerHTML = `
       <div style="
@@ -32,63 +152,19 @@ form.addEventListener("submit", async (e) => {
         justify-content:center;
         align-items:center;
         text-align:center;
-        font-family:Arial;
       ">
         <h1>DZIĘKI ZA PREORDER</h1>
         <p>Twoje zamówienie zostało zapisane.</p>
-        <small>Sprawdź maila.</small>
       </div>
     `;
   } catch (err) {
-    console.error("błąd:", err);
-    alert("Nie udało się wysłać formularza");
+    alert("Błąd wysyłania formularza");
   }
 });
 }
-
-/* cursor glow */
-const glow=document.getElementById('cursorGlow');
-document.addEventListener('mousemove',(e)=>{
-  if(glow){
-    glow.style.left=e.clientX+'px';
-    glow.style.top=e.clientY+'px';
-  }
-});
-
-/* booklet */
-let currentPage=0;
-const pages=document.querySelectorAll('.page');
-
-function showPage(index){
-  pages.forEach(p=>p.classList.remove('active'));
-  if(pages[index]) pages[index].classList.add('active');
-}
-
-window.nextPage=function(){
-  if(currentPage<pages.length-1){
-    currentPage++;
-    showPage(currentPage);
-  }
-}
-
-window.prevPage=function(){
-  if(currentPage>0){
-    currentPage--;
-    showPage(currentPage);
-  }
-}
-
-/* fade */
-const faders=document.querySelectorAll('.fade-in');
-const observer=new IntersectionObserver(entries=>{
-  entries.forEach(entry=>{
-    if(entry.isIntersecting){
-      entry.target.classList.add('visible');
-    }
-  });
-});
-
-faders.forEach(el=>observer.observe(el));
 
 });
 </script>
+
+</body>
+</html>
